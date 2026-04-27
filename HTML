@@ -144,6 +144,21 @@ body {
   font-size: 24px;
   margin-top: 10px;
 }
+
+/* 🚩 BANDERAS */
+.bandera {
+  position: absolute;
+  bottom: 140px;
+  font-size: 40px;
+}
+
+.inicio {
+  left: 10px;
+}
+
+.final {
+  right: 10px;
+}
 </style>
 </head>
 
@@ -152,6 +167,10 @@ body {
 <h1>🏎️ Auto Deportivo Inteligente</h1>
 <div id="distancia">Conectando con ESP32...</div>
 <div id="estado"></div>
+
+<!-- 🚩 BANDERAS -->
+<div class="bandera inicio">🏁</div>
+<div class="bandera final" id="meta">🏁</div>
 
 <div class="auto" id="auto">
   <div class="cuerpo">
@@ -171,7 +190,7 @@ body {
 
 <script>
 
-// 🔑 TU TOKEN (debe coincidir con tu ESP32 en TagoIO)
+// 🔑 TOKEN
 const token = "18082243-7e43-41ab-984b-35164e83db0d";
 
 function actualizar() {
@@ -200,6 +219,7 @@ function actualizar() {
     let humo = document.getElementById("humo");
     let r1 = document.getElementById("r1");
     let r2 = document.getElementById("r2");
+    let meta = document.getElementById("meta");
 
     let max = window.innerWidth - 150;
     let pos = (d / 100) * max;
@@ -222,6 +242,14 @@ function actualizar() {
       r2.classList.add("girando");
     }
 
+    // 🏁 META
+    if (d >= 95) {
+      estado.innerHTML = "🏆 META ALCANZADA";
+      meta.style.transform = "scale(1.5)";
+    } else {
+      meta.style.transform = "scale(1)";
+    }
+
   })
   .catch(err => {
     console.error("Error:", err);
@@ -229,7 +257,6 @@ function actualizar() {
   });
 }
 
-// 🔁 Actualiza cada segundo
 setInterval(actualizar, 1000);
 
 </script>
